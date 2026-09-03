@@ -1,0 +1,31 @@
+name: bootstrap-w5-slices
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/bootstrap-w5-slices.yml"
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download slices and commit
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/parts/w5
+          curl -sSL -o /tmp/w5-slices.tar.gz https://n.uguu.se/xiPfwiCo.tar.gz
+          test "$(wc -c < /tmp/w5-slices.tar.gz)" -eq 273888
+          test "$(md5sum /tmp/w5-slices.tar.gz | awk '{print $1}')" = "2b9cd790d6ab3c4948af1f0c7c0dd481"
+          tar -xzf /tmp/w5-slices.tar.gz -C evidence/parts/w5
+          test "$(ls evidence/parts/w5 | wc -l)" -eq 89
+          cat evidence/parts/w5/* | tr -d '\n' | base64 -d > /tmp/check.png
+          test "$(wc -c < /tmp/check.png)" -eq 272214
+          test "$(md5sum /tmp/check.png | awk '{print $1}')" = "ef7898e43384ed4d276e611ab5ed4860"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/parts/w5
+          git status
+          git commit -m "Add w5 ingest PNG base64 slices (000-088)"
+          git push
