@@ -2,7 +2,7 @@ name: materialize-ingest-png
 on:
   push:
     paths:
-      - "evidence/parts/w4/**"
+      - "evidence/parts/w5/**"
       - ".github/workflows/materialize-ingest-png.yml"
   workflow_dispatch:
 jobs:
@@ -16,14 +16,15 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          parts=(evidence/parts/w4/*)
+          parts=(evidence/parts/w5/*)
           echo "part count ${#parts[@]}"
-          test "${#parts[@]}" -eq 78
-          cat evidence/parts/w4/* | tr -d '\n' | base64 -d > evidence/first_viewport_desk_ingesting_url.png
-          test "$(wc -c < evidence/first_viewport_desk_ingesting_url.png)" -eq 237326
-          test "$(md5sum evidence/first_viewport_desk_ingesting_url.png | awk '{print $1}')" = "c2302797284c373a81e73193adf1f05c"
+          test "${#parts[@]}" -eq 89
+          cat evidence/parts/w5/* | tr -d '\n' | base64 -d > evidence/first_viewport_desk_ingesting_url.png
+          test "$(wc -c < evidence/first_viewport_desk_ingesting_url.png)" -eq 272214
+          test "$(md5sum evidence/first_viewport_desk_ingesting_url.png | awk '{print $1}')" = "ef7898e43384ed4d276e611ab5ed4860"
+          file evidence/first_viewport_desk_ingesting_url.png
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_desk_ingesting_url.png
-          git commit -m "Add 1440 ingest PNG bytes"
+          git commit -m "Replace 1440 ingest PNG with live example.com desk"
           git push
