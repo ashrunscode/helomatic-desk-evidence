@@ -2,8 +2,7 @@ name: materialize-ingest-png
 on:
   push:
     paths:
-      - "evidence/first_viewport_desk_ingesting_url.png.b64"
-      - "evidence/first_viewport_desk_ingesting_url.png.b64.*"
+      - "evidence/parts/w4/**"
       - ".github/workflows/materialize-ingest-png.yml"
   workflow_dispatch:
 jobs:
@@ -17,17 +16,14 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          parts=(evidence/first_viewport_desk_ingesting_url.png.b64 evidence/first_viewport_desk_ingesting_url.png.b64.*)
-          if [ ${#parts[@]} -eq 0 ]; then
-            echo "no payload yet"
-            exit 0
-          fi
-          cat "${parts[@]}" | tr -d '\n' | base64 -d > evidence/first_viewport_desk_ingesting_url.png
+          parts=(evidence/parts/w4/*)
+          echo "part count ${#parts[@]}"
+          test "${#parts[@]}" -eq 78
+          cat evidence/parts/w4/* | tr -d '\n' | base64 -d > evidence/first_viewport_desk_ingesting_url.png
           test "$(wc -c < evidence/first_viewport_desk_ingesting_url.png)" -eq 237326
           test "$(md5sum evidence/first_viewport_desk_ingesting_url.png | awk '{print $1}')" = "c2302797284c373a81e73193adf1f05c"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_desk_ingesting_url.png
-          git rm -f "${parts[@]}" .github/workflows/materialize-ingest-png.yml
           git commit -m "Add 1440 ingest PNG bytes"
           git push
