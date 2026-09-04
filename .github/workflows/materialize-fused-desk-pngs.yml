@@ -23,10 +23,10 @@ jobs:
             file "$dest" | grep -q PNG
             test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
           }
-          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788560728.e9d441110c2718e3/w8wFktcwakqC/first_viewport_fused_desk.png 809050 a630239e1a1033ff99ff3062b6795e1c
-          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788560736.6de6ec801e1cdeab/w4wQk4cgvqcT/first_viewport_motion_a.png 798756 e1b22dc483121f543a71532890c4623c
+          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788561748.75adecd366ff3c90/wUwgkBcMFMsM/first_viewport_fused_desk.png 857239 f391958031999a14f72fcfc009e0f5f6
+          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788561748.6bb091eb08f42080/wmw7kgcqFN4Z/first_viewport_motion_a.png 855251 a6817dbab05d4285c1bfef652235e745
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png
-          git commit -m "Add calm-chrome first viewport PNGs"
+          git commit -m "Add dense-desk first viewport PNGs"
           git push
