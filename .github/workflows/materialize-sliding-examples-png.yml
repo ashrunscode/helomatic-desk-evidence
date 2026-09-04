@@ -1,9 +1,10 @@
 name: materialize-sliding-examples-png
-# w6 slices 000-127
+# w6 slices 000-127 — retrigger now that w6 slices exist
 on:
   push:
     paths:
       - "evidence/parts/w6/**"
+      - ".github/workflows/materialize-sliding-examples-png.yml"
   workflow_dispatch:
 jobs:
   materialize:
