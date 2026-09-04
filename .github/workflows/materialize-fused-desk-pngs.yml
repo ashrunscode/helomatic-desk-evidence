@@ -23,10 +23,14 @@ jobs:
             file "$dest" | grep -q PNG
             test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
           }
-          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788563881.23079e75b1cf4764/wzwgk1nF6yLK/first_viewport_fused_desk.png 608693 b14a0ba53f4bad03cb53282fbf668286
-          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788563881.49f7bdea68f6905d/wtwNklnm6fHD/first_viewport_motion_a.png 605539 1d9e0126c3143f70d0155cb366080e45
+          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788564900.30f4c3f37405db69/wFwXkTnd55eH/denser_center_first_viewport_fused_desk.png 645368 403e3233c1b4550016398815ae85f041
+          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788564900.54bfe6b549d74f85/w7wDkXnG5gfP/denser_center_first_viewport_motion_a.png 643075 be23e21546d239dd744df408d0aedc26
+          cp evidence/first_viewport_fused_desk.png evidence/denser_center_first_viewport_fused_desk.png
+          cp evidence/first_viewport_motion_a.png evidence/denser_center_first_viewport_motion_a.png
+          test "$(md5sum evidence/denser_center_first_viewport_fused_desk.png | awk '{print $1}')" = "403e3233c1b4550016398815ae85f041"
+          test "$(md5sum evidence/denser_center_first_viewport_motion_a.png | awk '{print $1}')" = "be23e21546d239dd744df408d0aedc26"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png
-          git commit -m "Add multi-surface first viewport PNGs"
+          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/denser_center_first_viewport_fused_desk.png evidence/denser_center_first_viewport_motion_a.png
+          git commit -m "Add denser-center first viewport PNGs"
           git push
