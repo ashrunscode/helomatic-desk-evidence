@@ -23,10 +23,10 @@ jobs:
             file "$dest" | grep -q PNG
             test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
           }
-          fetch evidence/first_viewport_fused_desk.png https://litter.catbox.moe/r8f6jn.png 1248849 341ef79df53e7c25ba37932264ac3728
-          fetch evidence/first_viewport_motion_a.png https://litter.catbox.moe/uhznby.png 1235668 b840471a4ccbff0a21f9091915d4c1da
+          fetch evidence/first_viewport_fused_desk.png https://litter.catbox.moe/gd7d0d.png 817210 a7df26aa551c2051a1cd0a05d7d7c247
+          fetch evidence/first_viewport_motion_a.png https://litter.catbox.moe/qdonl9.png 821465 804b5d115ace04a17f1d07dc0e728821
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png
-          git commit -m "Add full-bleed product-window first viewport PNGs"
+          git commit -m "Add pulled-back first viewport PNGs"
           git push
