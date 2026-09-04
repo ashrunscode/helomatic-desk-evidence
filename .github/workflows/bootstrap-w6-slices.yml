@@ -1,0 +1,33 @@
+name: bootstrap-w6-slices
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/bootstrap-w6-slices.yml"
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download slices and commit
+        run: |
+          set -euo pipefail
+          rm -rf evidence/parts/w6
+          mkdir -p evidence/parts/w6
+          curl -sSL -o /tmp/w6-slices.tar.gz https://h.uguu.se/YjyqOPTd.tar.gz
+          test "$(wc -c < /tmp/w6-slices.tar.gz)" -eq 396422
+          test "$(md5sum /tmp/w6-slices.tar.gz | awk '{print $1}')" = "0a3c0275579dbd09e62ae881633c6e68"
+          tar -xzf /tmp/w6-slices.tar.gz -C evidence/parts/w6
+          test "$(ls evidence/parts/w6 | wc -l)" -eq 128
+          cat evidence/parts/w6/* | tr -d '\n' | base64 -d > /tmp/check.png
+          test "$(wc -c < /tmp/check.png)" -eq 392852
+          test "$(md5sum /tmp/check.png | awk '{print $1}')" = "a90943a8181398c64845d4cff4caad90"
+          file /tmp/check.png | grep -q PNG
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/parts/w6
+          git status
+          git commit -m "Add w6 sliding-examples PNG base64 slices (000-127)"
+          git push

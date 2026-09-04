@@ -1,0 +1,33 @@
+name: materialize-sliding-examples-png
+# w6 slices 000-127
+on:
+  push:
+    paths:
+      - "evidence/parts/w6/**"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode and commit PNG
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          parts=(evidence/parts/w6/[0-9]*)
+          echo "part count ${#parts[@]}"
+          test "${#parts[@]}" -eq 128
+          mkdir -p evidence
+          cat evidence/parts/w6/[0-9]* | tr -d '\n' | base64 -d > evidence/first_viewport_sliding_examples.png
+          test "$(wc -c < evidence/first_viewport_sliding_examples.png)" -eq 392852
+          test "$(md5sum evidence/first_viewport_sliding_examples.png | awk '{print $1}')" = "a90943a8181398c64845d4cff4caad90"
+          file evidence/first_viewport_sliding_examples.png | grep -q PNG
+          test "$(od -An -tx1 -N4 evidence/first_viewport_sliding_examples.png | tr -d ' ')" = "89504e47"
+          test -f evidence/first_viewport_desk_ingesting_url.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_sliding_examples.png
+          git commit -m "Add 1440 sliding examples PNG bytes"
+          git push
