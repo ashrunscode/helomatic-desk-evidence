@@ -1,0 +1,30 @@
+name: materialize-depth-desk-png
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-depth-desk-png.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch and commit PNG
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          curl -fsSL -A "Mozilla/5.0" -o evidence/first_viewport_depth_desk.png \
+            https://litter.catbox.moe/ff5ldk.png
+          test "$(wc -c < evidence/first_viewport_depth_desk.png)" -eq 703708
+          test "$(md5sum evidence/first_viewport_depth_desk.png | awk '{print $1}')" = "c54a84c7f80af1be6bac5c1d9b48a502"
+          file evidence/first_viewport_depth_desk.png | grep -q PNG
+          test "$(od -An -tx1 -N4 evidence/first_viewport_depth_desk.png | tr -d ' ')" = "89504e47"
+          test -f evidence/first_viewport_sliding_examples.png
+          test "$(wc -c < evidence/first_viewport_sliding_examples.png)" -eq 392852
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_depth_desk.png
+          git commit -m "Add 1440 depth desk PNG bytes"
+          git push
