@@ -23,12 +23,10 @@ jobs:
             file "$dest" | grep -q PNG
             test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
           }
-          fetch evidence/first_viewport_fused_desk.png https://litter.catbox.moe/pq5jan.png 1074725 c4f1cbe41a1fc8598bb67dc92d544f33
-          fetch evidence/first_viewport_motion_a.png https://litter.catbox.moe/ntb21q.png 1076410 23eaa0add874a6ef1f5d760c16b9936a
-          fetch evidence/first_viewport_motion_b.png https://litter.catbox.moe/1qs3nt.png 1062266 1932ef4d34bbb8ce36f4a686a363dbc1
-          fetch evidence/first_viewport_sliding_examples.png https://litter.catbox.moe/xgkrs7.png 1052452 a57b0452785c33f3a8728956d4b509d4
+          fetch evidence/first_viewport_fused_desk.png https://litter.catbox.moe/r8f6jn.png 1248849 341ef79df53e7c25ba37932264ac3728
+          fetch evidence/first_viewport_motion_a.png https://litter.catbox.moe/uhznby.png 1235668 b840471a4ccbff0a21f9091915d4c1da
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/first_viewport_motion_b.png evidence/first_viewport_sliding_examples.png
-          git commit -m "Add fused desk and motion evidence PNGs"
+          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png
+          git commit -m "Add full-bleed product-window first viewport PNGs"
           git push
