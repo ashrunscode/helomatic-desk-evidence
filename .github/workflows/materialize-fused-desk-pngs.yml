@@ -23,10 +23,10 @@ jobs:
             file "$dest" | grep -q PNG
             test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
           }
-          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788562546.c798c1df89cf4e28/wew6kdc0hwRD/first_viewport_fused_desk.png 573674 286661bab2d28f8be5b64d7ee78befcb
-          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788562546.971b04bcd5d472f8/wjwdkkc9hWFa/first_viewport_motion_a.png 572253 4e45028bf0d97192a0e53ec2a165ac07
+          fetch evidence/first_viewport_fused_desk.png https://tmpfiles.org/dl/1788563394.53401e0593e0575f/wMwzk2nnwtil/first_viewport_fused_desk.png 577027 d23ae831b8624dbaa3670be4acdc5c0d
+          fetch evidence/first_viewport_motion_a.png https://tmpfiles.org/dl/1788563395.cd9509abdcf07114/wHwMkCnFwgIk/first_viewport_motion_a.png 574944 715a3972bb24a87f0344b4f4951d25e3
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png
-          git commit -m "Add instrumented-desk first viewport PNGs"
+          git commit -m "Add work-surface first viewport PNGs"
           git push
