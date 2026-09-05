@@ -1,0 +1,69 @@
+name: materialize-house-v3-live
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-house-v3-live.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch house-v3-live pack, stills, and watched film
+        run: |
+          set -euo pipefail
+          mkdir -p evidence evidence/ship-gate
+          fetch() {
+            local dest="$1" bytes="$2" hash="$3"
+            shift 3
+            local ok=0
+            local url html fresh
+            for url in "$@"; do
+              if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$url"; then
+                if test "$(wc -c < "$dest")" -eq "$bytes" && test "$(md5sum "$dest" | awk '{print $1}')" = "$hash"; then
+                  ok=1
+                  break
+                fi
+              fi
+              html=$(curl -fsSL --retry 3 --retry-delay 2 -A "Mozilla/5.0" "$url" || true)
+              fresh=$(printf '%s' "$html" | grep -oE 'https://tmpfiles.org/dl/[^"[:space:]]+' | head -n 1 || true)
+              if test -n "$fresh"; then
+                if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$fresh"; then
+                  if test "$(wc -c < "$dest")" -eq "$bytes" && test "$(md5sum "$dest" | awk '{print $1}')" = "$hash"; then
+                    ok=1
+                    break
+                  fi
+                fi
+              fi
+            done
+            test "$ok" -eq 1
+          }
+          fetch evidence/first_viewport_t0.png 481866 0a4f41fbf531c4e92cfddcd59be13846 https://tmpfiles.org/dl/1788614268.5927ac4af06953b2/w4wBktW2vwbo/first_viewport_t0.png https://tmpfiles.org/w4wBktW2vwbo/first_viewport_t0.png
+          fetch evidence/first_viewport_t1.png 565011 ceb69291f6813fbb1f1fe65aff7db697 https://tmpfiles.org/dl/1788614270.e4f617af4ea9386f/wWwskeW4vLvF/first_viewport_t1.png https://tmpfiles.org/wWwskeW4vLvF/first_viewport_t1.png
+          fetch evidence/first_viewport_t2.png 553169 d5a3f16646cc1cbcd043d934ecca0736 https://tmpfiles.org/dl/1788614271.79d7e9d56fb3aea0/wYw4kjWfvE3Y/first_viewport_t2.png https://tmpfiles.org/wYw4kjWfvE3Y/first_viewport_t2.png
+          fetch evidence/first_viewport_film_loop.json 1644 f8c072b399e8739a71e52ae322f91305 https://tmpfiles.org/dl/1788614271.aec74ac5e7b63b7e/w1wJkeWivRYu/first_viewport_film_loop.json https://tmpfiles.org/w1wJkeWivRYu/first_viewport_film_loop.json
+          fetch evidence/first_viewport_watched_loop.webm 125953 0eb156c492f58e086bfd8cf552b510b5 https://tmpfiles.org/dl/1788614272.068828e1be0196cb/wkw5kJWbv41u/first_viewport_watched_loop.webm https://tmpfiles.org/wkw5kJWbv41u/first_viewport_watched_loop.webm
+          fetch evidence/first_viewport_watched_loop.json 945 7d9bd2df0101622fe209a2dd9194b15d https://tmpfiles.org/dl/1788614273.f6ebeadfd88f02fa/w2wgk9WlvYQn/first_viewport_watched_loop.json https://tmpfiles.org/w2wgk9WlvYQn/first_viewport_watched_loop.json
+          fetch evidence/ship-gate/helomatic-www-house-v3-live.tgz 1005467 8b2a795b5aaaf00bcbf3c61efd8cfe4a https://tmpfiles.org/dl/1788614274.876923a5db92011a/wmw1k9W6vhzY/helomatic-www-house-v3-live.tgz https://tmpfiles.org/wmw1k9W6vhzY/helomatic-www-house-v3-live.tgz
+          test "$(od -An -tx1 -N4 evidence/first_viewport_t0.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N4 evidence/first_viewport_watched_loop.webm | tr -d ' ')" = "1a45dfa3"
+          test "$(od -An -tx1 -N2 evidence/ship-gate/helomatic-www-house-v3-live.tgz | tr -d ' ')" = "1f8b"
+          cp evidence/first_viewport_t0.png evidence/first_viewport_fused_desk.png
+          cp evidence/first_viewport_t1.png evidence/first_viewport_motion_a.png
+          cp evidence/first_viewport_t2.png evidence/first_viewport_motion_b.png
+          cp evidence/first_viewport_t2.png evidence/first_viewport_film_frame.png
+          printf '%s\n' \
+            'https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-house-v3-live.tgz' \
+            '# 1005467 bytes  sha256 48f803d2ec1f2eab8054027f0770f8f2854f0dd8e53358247a5c600c17c8bce7' \
+            '# md5 8b2a795b5aaaf00bcbf3c61efd8cfe4a' \
+            '# source e76342d / t0 0a4f41fb / 481866 / t1 ceb69291 / 565011 / t2 d5a3f166 / 553169' \
+            '# watched_loop 0eb156c4 / 125953 / 28 unique live WebGL frames / 9.03 fps / 3.1s / camX span 4.86' \
+            '# no deploy from this workflow' \
+            > evidence/ship-gate/HOUSE-V3-LIVE-TGZ.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_t0.png evidence/first_viewport_t1.png evidence/first_viewport_t2.png evidence/first_viewport_film_loop.json evidence/first_viewport_watched_loop.webm evidence/first_viewport_watched_loop.json evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/first_viewport_motion_b.png evidence/first_viewport_film_frame.png evidence/ship-gate/helomatic-www-house-v3-live.tgz evidence/ship-gate/HOUSE-V3-LIVE-TGZ.txt
+          git commit -m "Land house-v3-live pack, stills, and watched film"
+          git push
