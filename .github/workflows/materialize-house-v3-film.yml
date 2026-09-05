@@ -1,0 +1,64 @@
+name: materialize-house-v3-film
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-house-v3-film.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch house-v3-film pack and stills
+        run: |
+          set -euo pipefail
+          mkdir -p evidence evidence/ship-gate
+          fetch() {
+            local dest="$1" bytes="$2" hash="$3"
+            shift 3
+            local ok=0
+            local url
+            for url in "$@"; do
+              if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$url"; then
+                if test "$(wc -c < "$dest")" -eq "$bytes" && test "$(md5sum "$dest" | awk '{print $1}')" = "$hash"; then
+                  ok=1
+                  break
+                fi
+              fi
+            done
+            test "$ok" -eq 1
+          }
+          fetch evidence/first_viewport_t0.png 986123 1e073648567059381c0ffa3e8494dd06 https://litter.catbox.moe/btiucn.png https://tmpfiles.org/dl/1788596553.5dd244ba50745250/wMwckYTnElnc/first_viewport_t0.png
+          fetch evidence/first_viewport_t1.png 962442 74ab19cb52a5ad9e63b5c43d89b84af2 https://litter.catbox.moe/fvtlmy.png https://tmpfiles.org/dl/1788596553.ff55cee7f52ea39c/wmwWkeTxEuV9/first_viewport_t1.png
+          fetch evidence/first_viewport_t2.png 905996 18c58183da0212101c6efc5f30960adb https://litter.catbox.moe/t39ff2.png https://tmpfiles.org/dl/1788596554.df0073ffb4c54982/wZwnkgTBEaLj/first_viewport_t2.png
+          fetch evidence/first_viewport_film_loop.json 1017 b22ee18accf6fd925cf51d359b9c7cfa https://litter.catbox.moe/4jabc2.json https://tmpfiles.org/dl/1788596554.9a5b5ef5c3057c6a/wnwSkfTHE6Hf/first_viewport_film_loop.json
+          fetch evidence/ship-gate/helomatic-www-house-v3-film.tgz 1046698 25456458fcad53d0fb41e77a096b311e https://litter.catbox.moe/8s8auk.tgz https://tmpfiles.org/dl/1788596554.c625699dd34d3e48/wZwckdTZE1de/helomatic-www-house-v3-film.tgz
+          test "$(od -An -tx1 -N4 evidence/first_viewport_t0.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N4 evidence/first_viewport_t1.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N4 evidence/first_viewport_t2.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N2 evidence/ship-gate/helomatic-www-house-v3-film.tgz | tr -d ' ')" = "1f8b"
+          cp evidence/first_viewport_t0.png evidence/first_viewport_fused_desk.png
+          cp evidence/first_viewport_t1.png evidence/first_viewport_motion_a.png
+          cp evidence/first_viewport_t2.png evidence/first_viewport_motion_b.png
+          cp evidence/first_viewport_t2.png evidence/first_viewport_film_frame.png
+          cp evidence/first_viewport_t0.png evidence/denser_center_first_viewport_fused_desk.png
+          cp evidence/first_viewport_t1.png evidence/denser_center_first_viewport_motion_a.png
+          cp evidence/first_viewport_t0.png evidence/floated_window_first_viewport_fused_desk.png
+          cp evidence/first_viewport_t1.png evidence/floated_window_first_viewport_motion_a.png
+          printf '%s\n' \
+            'https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-house-v3-film.tgz' \
+            '# 1046698 bytes  sha256 51063f25e08c7d4ca74ac4ddcf7d11db81388630f019eb2730f2b6449ce9c00e' \
+            '# md5 25456458fcad53d0fb41e77a096b311e' \
+            '# source 2be0b33 / t0 1e073648 / 986123 / t1 74ab19cb / 962442 / t2 18c58183 / 905996' \
+            '# filmTime 1.517 to 0.360 loop wrap to 2.349' \
+            '# banned absent: Hellomatic | Hello Matic | Halomatic' \
+            '# wrangler deploy from extract; name=helomatic-www; workers_dev only; no apex' \
+            '# no deploy from this workflow' \
+            > evidence/ship-gate/HOUSE-V3-FILM-TGZ.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_t0.png evidence/first_viewport_t1.png evidence/first_viewport_t2.png evidence/first_viewport_film_loop.json evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/first_viewport_motion_b.png evidence/first_viewport_film_frame.png evidence/denser_center_first_viewport_fused_desk.png evidence/denser_center_first_viewport_motion_a.png evidence/floated_window_first_viewport_fused_desk.png evidence/floated_window_first_viewport_motion_a.png evidence/ship-gate/helomatic-www-house-v3-film.tgz evidence/ship-gate/HOUSE-V3-FILM-TGZ.txt
+          git commit -m "Land house-v3-film pack and three-timestamp stills"
+          git push
