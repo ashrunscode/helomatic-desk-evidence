@@ -1,8 +1,27 @@
 {
-  "frames": 33,
-  "durationSec": 2.75,
-  "bytes": 537510,
-  "md5": "d29bbd536ab5bbd5dccd0214087cdd4f",
-  "source": "CDP Page.captureScreenshot sequence of the live desk with film ON",
-  "note": "48-frame run was truncated by tool timeout; 33 consecutive frames encoded. Distinct from t0/t1/t2 stills."
+  "frames": 36,
+  "durationSec": 3,
+  "bytes": 305726,
+  "md5": "02fb4846af423b46fc0da3a3c4945222",
+  "camZFirst": 6.687206130994674,
+  "camZLast": 3.829899183388943,
+  "camSpan": 2.8573069476057316,
+  "lampXFirst": -1.112655345400179,
+  "lampXLast": -1.6520373793596,
+  "lampSpan": 0.5393820339594209,
+  "clockFirst": 0.39029999999701975,
+  "clockLast": 40.85150000000001,
+  "wallMs": 40356,
+  "ready": {
+    "brand": "Helomatic",
+    "canvas": true,
+    "iframe": true,
+    "film": true,
+    "filmPaused": false,
+    "filmTime": 1.20085,
+    "clock": 0.39029999999701975,
+    "camZ": 6.687206130994674,
+    "camX": 1.0257353769982247,
+    "lampX": -1.112655345400179
+  }
 }

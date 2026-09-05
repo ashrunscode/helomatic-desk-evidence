@@ -1,0 +1,6 @@
+https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-house-v3-motion.tgz
+# 1004461 bytes  sha256 1f3663955a95504061bf82cc6ddf1cb4de57c28cbb02c0ce68410951e9223453
+# md5 3c443318bee9259208c36be730287af9
+# source 26a2e73 / t0 8e7b584a / 524432 / t1 0a9f22df / 532636 / t2 174d48a2 / 529401
+# watched_loop 02fb4846 / 305726 / 36 frames / 12 fps / 3s / camZ 6.69 to 3.83
+# no deploy from this workflow

@@ -23,22 +23,32 @@
     "stageH": 268,
     "film": true,
     "filmPaused": false,
-    "filmTime": 0.37678,
-    "filmEnded": false
+    "filmTime": 2.851867,
+    "filmEnded": false,
+    "clock": 2.4112000000029803,
+    "camZ": 6.720294738527878,
+    "camX": 1.0639794624730805,
+    "lampX": -1.0394532794920832
   },
   "t0": {
-    "bytes": 772665,
-    "md5": "0ade7d6c3b2701f56cafcd97e104427d",
-    "filmTime": 1.152249
+    "bytes": 524432,
+    "md5": "8e7b584adaf9e8f3bb60e2ac4f1048ad",
+    "clock": 2.4645,
+    "camZ": 6.042818367827115,
+    "lampX": -1.0590881560342364
   },
   "t1": {
-    "bytes": 740151,
-    "md5": "6398899b23500da368d587b9724f9852",
-    "filmTime": 2.470396
+    "bytes": 532636,
+    "md5": "0a9f22df2dbd680e761606ac581d9487",
+    "clock": 8.874500000000001,
+    "camZ": 4.725784561320883,
+    "lampX": -1.2353323910997618
   },
   "t2": {
-    "bytes": 700132,
-    "md5": "5de266714c9c5cf9eff9c931b35172e4",
-    "filmTime": 1.750934
+    "bytes": 529401,
+    "md5": "174d48a25dfb7745dded165eaf2abe81",
+    "clock": 15.762900000005963,
+    "camZ": 4.1558929077517694,
+    "lampX": -1.5936125393829885
   }
 }
