@@ -1,0 +1,44 @@
+{
+  "ready": {
+    "mark": "Helomatic",
+    "h1": "Reprint or start from a brief.",
+    "kicker": "Agentic automation.",
+    "cta": "Open a desk",
+    "url": "https://ashleyansons.com/",
+    "hasSticky": false,
+    "hellomatic": false,
+    "hallmark": false,
+    "iframe": true,
+    "frameSrc": "/api/ingest/page?url=https%3A%2F%2Fashleyansons.com%2F",
+    "htmlLeak": false,
+    "productVisible": false,
+    "productW": 0,
+    "productH": 0,
+    "ctaRight": 1406.40625,
+    "canvas": true,
+    "canvasW": 1440,
+    "canvasH": 1100,
+    "threePane": false,
+    "stageW": 400,
+    "stageH": 268,
+    "film": true,
+    "filmPaused": false,
+    "filmTime": 0.359004,
+    "filmEnded": false
+  },
+  "t0": {
+    "bytes": 986123,
+    "md5": "1e073648567059381c0ffa3e8494dd06",
+    "filmTime": 1.517369
+  },
+  "t1": {
+    "bytes": 962442,
+    "md5": "74ab19cb52a5ad9e63b5c43d89b84af2",
+    "filmTime": 0.360016
+  },
+  "t2": {
+    "bytes": 905996,
+    "md5": "18c58183da0212101c6efc5f30960adb",
+    "filmTime": 2.349335
+  }
+}
