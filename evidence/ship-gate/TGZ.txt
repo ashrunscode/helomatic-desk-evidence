@@ -1,0 +1,5 @@
+https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-craft-cut.tgz
+# 650809 bytes  md5 2ea12fe9387a7d0dfc6088e25038ad4c
+# source 6c6764cc / fused f254d9a9
+# wrangler deploy from extract; name=helomatic-www; no apex
+# no deploy from this workflow
