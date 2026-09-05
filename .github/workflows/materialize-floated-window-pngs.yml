@@ -1,0 +1,48 @@
+name: materialize-floated-window-pngs
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-floated-window-pngs.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch floated three-pane first-viewport PNGs
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          fetch() {
+            local dest="$1" bytes="$2" hash="$3"
+            shift 3
+            local ok=0
+            for url in "$@"; do
+              if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$url"; then
+                if [ "$(wc -c < "$dest")" -eq "$bytes" ] && [ "$(md5sum "$dest" | awk '{print $1}')" = "$hash" ]; then
+                  file "$dest" | grep -q PNG
+                  test "$(od -An -tx1 -N4 "$dest" | tr -d ' ')" = "89504e47"
+                  ok=1
+                  break
+                fi
+              fi
+            done
+            test "$ok" -eq 1
+          }
+          fetch evidence/first_viewport_fused_desk.png 414843 34b10facfdc4a0481efe6b5221271a89 \
+            https://litter.catbox.moe/kwviqw.png \
+            https://tmpfiles.org/dl/1788568219.90580fe0889e3bc9/wjw2kZn28XCy/first_viewport_fused_desk.png
+          fetch evidence/first_viewport_motion_a.png 414572 b3d8dac44a68aaa185c00ffdda9a1b21 \
+            https://litter.catbox.moe/74xdrq.png \
+            https://tmpfiles.org/dl/1788568257.3b828653521d21e2/wpwekknY86Gb/first_viewport_motion_a.png
+          cp evidence/first_viewport_fused_desk.png evidence/floated_window_first_viewport_fused_desk.png
+          cp evidence/first_viewport_motion_a.png evidence/floated_window_first_viewport_motion_a.png
+          test "$(md5sum evidence/floated_window_first_viewport_fused_desk.png | awk '{print $1}')" = "34b10facfdc4a0481efe6b5221271a89"
+          test "$(md5sum evidence/floated_window_first_viewport_motion_a.png | awk '{print $1}')" = "b3d8dac44a68aaa185c00ffdda9a1b21"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/floated_window_first_viewport_fused_desk.png evidence/floated_window_first_viewport_motion_a.png
+          git commit -m "Materialize floated three-pane first-viewport PNGs"
+          git push
