@@ -31,16 +31,14 @@ jobs:
             done
             test "$ok" -eq 1
           }
-          fetch evidence/first_viewport_fused_desk.png 414843 34b10facfdc4a0481efe6b5221271a89 \
-            https://litter.catbox.moe/kwviqw.png \
-            https://tmpfiles.org/dl/1788568219.90580fe0889e3bc9/wjw2kZn28XCy/first_viewport_fused_desk.png
-          fetch evidence/first_viewport_motion_a.png 414572 b3d8dac44a68aaa185c00ffdda9a1b21 \
-            https://litter.catbox.moe/74xdrq.png \
-            https://tmpfiles.org/dl/1788568257.3b828653521d21e2/wpwekknY86Gb/first_viewport_motion_a.png
+          fetch evidence/first_viewport_fused_desk.png 605201 f254d9a9e7729ff22672852045b9d4e5 \
+            https://tmpfiles.org/dl/1788569090.888d58b061fc1b2d/wNwNkCMMnmFK/first_viewport_fused_desk.png
+          fetch evidence/first_viewport_motion_a.png 604856 9099135049fb6bc4c8b1e144cd8f13ae \
+            https://tmpfiles.org/dl/1788569235.5619e570f3f917f6/wewJk3MYnsOy/first_viewport_motion_a.png
           cp evidence/first_viewport_fused_desk.png evidence/floated_window_first_viewport_fused_desk.png
           cp evidence/first_viewport_motion_a.png evidence/floated_window_first_viewport_motion_a.png
-          test "$(md5sum evidence/floated_window_first_viewport_fused_desk.png | awk '{print $1}')" = "34b10facfdc4a0481efe6b5221271a89"
-          test "$(md5sum evidence/floated_window_first_viewport_motion_a.png | awk '{print $1}')" = "b3d8dac44a68aaa185c00ffdda9a1b21"
+          test "$(md5sum evidence/floated_window_first_viewport_fused_desk.png | awk '{print $1}')" = "f254d9a9e7729ff22672852045b9d4e5"
+          test "$(md5sum evidence/floated_window_first_viewport_motion_a.png | awk '{print $1}')" = "9099135049fb6bc4c8b1e144cd8f13ae"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/floated_window_first_viewport_fused_desk.png evidence/floated_window_first_viewport_motion_a.png
