@@ -1,27 +1,37 @@
 {
-  "frames": 36,
-  "durationSec": 3,
-  "bytes": 305726,
-  "md5": "02fb4846af423b46fc0da3a3c4945222",
-  "camZFirst": 6.687206130994674,
-  "camZLast": 3.829899183388943,
-  "camSpan": 2.8573069476057316,
-  "lampXFirst": -1.112655345400179,
-  "lampXLast": -1.6520373793596,
-  "lampSpan": 0.5393820339594209,
-  "clockFirst": 0.39029999999701975,
-  "clockLast": 40.85150000000001,
-  "wallMs": 40356,
+  "frames": 28,
+  "unique": 28,
+  "durationSec": 3.1000000000000005,
+  "playFps": 9.032258064516128,
+  "wallMs": 9678.5,
+  "canvas": {
+    "width": 604,
+    "height": 462
+  },
+  "bytes": 125953,
+  "md5": "0eb156c492f58e086bfd8cf552b510b5",
+  "parallax": {
+    "lampCard": 1030.965073520054,
+    "cardChassis": 541.6416154795451,
+    "camX": 4.863473959812821,
+    "lampX": 2273.4833209525655,
+    "cardX": 2067.645100838702,
+    "chassisX": 1636.8084668241893
+  },
   "ready": {
     "brand": "Helomatic",
     "canvas": true,
+    "canvasW": 604,
+    "canvasH": 462,
     "iframe": true,
     "film": true,
     "filmPaused": false,
-    "filmTime": 1.20085,
-    "clock": 0.39029999999701975,
-    "camZ": 6.687206130994674,
-    "camX": 1.0257353769982247,
-    "lampX": -1.112655345400179
-  }
+    "clock": 2.0866999999880793,
+    "camX": -1.6753944073308509,
+    "camZ": 3.673170998017581,
+    "lampSx": 907.8411875040151,
+    "cardSx": 1008.5305537727969,
+    "chassisSx": 1655.91926620273
+  },
+  "source": "continuous canvas.toDataURL of the live Three.js drawing buffer while CameraRig + LivingLamp run"
 }
