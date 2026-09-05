@@ -1,0 +1,9 @@
+https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-house-v3-loop.tgz
+# 1005260 bytes  sha256 f7f3de2782b0ade406e99c8ba7f879892ad4e0f5ff85deaa18865d03ef9b82a3
+# md5 975821f35c5405e75c9f8b7aafbb8074
+# source 66b30ca / t0 0ade7d6c / 772665 / t1 6398899b / 740151 / t2 5de26671 / 700132
+# watched_loop d29bbd53 / 537510 / 33 frames / 12 fps / 2.75s
+# filmTime 1.152 to 2.470 to 1.751 wrap
+# banned absent: Hellomatic | Hello Matic | Halomatic
+# wrangler deploy from extract; name=helomatic-www; workers_dev only; no apex
+# no deploy from this workflow
