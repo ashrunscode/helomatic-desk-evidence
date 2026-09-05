@@ -1,0 +1,6 @@
+https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-r3f-cut.tgz
+# 653253 bytes  md5 aa69e65a86db47f29eefcce978a39fc9
+# source cd69b908 / fused a5e1b7cb / motion 876adda3 / evidence fc091fd
+# banned absent: Hellomatic | Hello Matic | Halomatic
+# wrangler deploy from extract; name=helomatic-www; no apex
+# no deploy from this workflow
