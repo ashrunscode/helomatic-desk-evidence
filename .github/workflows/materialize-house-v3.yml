@@ -1,0 +1,58 @@
+name: materialize-house-v3
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-house-v3.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch stills and house-v3 tarball
+        run: |
+          set -euo pipefail
+          mkdir -p evidence evidence/ship-gate
+          fetch() {
+            local dest="$1" bytes="$2" hash="$3"
+            shift 3
+            local ok=0
+            local url
+            for url in "$@"; do
+              if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$url"; then
+                if test "$(wc -c < "$dest")" -eq "$bytes" && test "$(md5sum "$dest" | awk '{print $1}')" = "$hash"; then
+                  ok=1
+                  break
+                fi
+              fi
+            done
+            test "$ok" -eq 1
+          }
+          fetch evidence/first_viewport_fused_desk.png 1005466 857db87c1a6dac1f6caeb0a400e2652d https://litter.catbox.moe/rhrp3b.png https://tmpfiles.org/dl/1788578035.3291c583c9bab9f8/w7wrkrU4B9OW/first_viewport_fused_desk.png
+          fetch evidence/first_viewport_motion_a.png 976580 019bb3657071f2451d37732375766f5f https://litter.catbox.moe/66n8gl.png https://tmpfiles.org/dl/1788578040.daf4aa04efc03eee/wiwwkfUSBISP/first_viewport_motion_a.png
+          fetch evidence/first_viewport_motion_b.png 971849 e1ecebdc7f406afd028c98979f931e6b https://litter.catbox.moe/tdhtmr.png https://tmpfiles.org/dl/1788578041.bd9bf69bd577906d/wlwJktUlBCCk/first_viewport_motion_b.png
+          fetch evidence/ship-gate/helomatic-www-house-v3.tgz 1046732 518928067b1951c836765f1adf8404ae https://litter.catbox.moe/tm8801.tgz https://tmpfiles.org/dl/1788578041.f317e50ca2aacd59/wgwuk8UGBMr3/helomatic-www-house-v3.tgz
+          test "$(od -An -tx1 -N4 evidence/first_viewport_fused_desk.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N4 evidence/first_viewport_motion_a.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N4 evidence/first_viewport_motion_b.png | tr -d ' ')" = "89504e47"
+          test "$(od -An -tx1 -N2 evidence/ship-gate/helomatic-www-house-v3.tgz | tr -d ' ')" = "1f8b"
+          cp evidence/first_viewport_fused_desk.png evidence/denser_center_first_viewport_fused_desk.png
+          cp evidence/first_viewport_motion_a.png evidence/denser_center_first_viewport_motion_a.png
+          cp evidence/first_viewport_fused_desk.png evidence/floated_window_first_viewport_fused_desk.png
+          cp evidence/first_viewport_motion_a.png evidence/floated_window_first_viewport_motion_a.png
+          cp evidence/first_viewport_motion_b.png evidence/first_viewport_film_frame.png
+          printf '%s\n' \
+            'https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/helomatic-www-house-v3.tgz' \
+            '# 1046732 bytes  md5 518928067b1951c836765f1adf8404ae' \
+            '# source fe46686 / fused 857db87c / 1005466 / motion 019bb365 / 976580 / motion_b e1ecebdc / 971849' \
+            '# banned absent: Hellomatic | Hello Matic | Halomatic' \
+            '# wrangler deploy from extract; name=helomatic-www; workers_dev only; no apex' \
+            '# no deploy from this workflow' \
+            > evidence/ship-gate/HOUSE-V3-TGZ.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/first_viewport_fused_desk.png evidence/first_viewport_motion_a.png evidence/first_viewport_motion_b.png evidence/first_viewport_film_frame.png evidence/denser_center_first_viewport_fused_desk.png evidence/denser_center_first_viewport_motion_a.png evidence/floated_window_first_viewport_fused_desk.png evidence/floated_window_first_viewport_motion_a.png evidence/ship-gate/helomatic-www-house-v3.tgz evidence/ship-gate/HOUSE-V3-TGZ.txt
+          git commit -m "Land house-v3 stills and deploy tarball"
+          git push
