@@ -1,0 +1,49 @@
+name: materialize-ship-gate-js
+on:
+  push:
+    paths:
+      - ".github/workflows/materialize-ship-gate-js.yml"
+  workflow_dispatch:
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch ship-gate client JS
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/ship-gate PAX
+          fetch() {
+            local dest="$1" bytes="$2" hash="$3"
+            shift 3
+            local ok=0
+            for url in "$@"; do
+              if curl -fL --retry 4 --retry-delay 3 -A "Mozilla/5.0" -o "$dest" "$url"; then
+                if [ "$(wc -c < "$dest")" -eq "$bytes" ] && [ "$(md5sum "$dest" | awk '{print $1}')" = "$hash" ]; then
+                  ok=1
+                  break
+                fi
+              fi
+            done
+            test "$ok" -eq 1
+          }
+          fetch evidence/ship-gate/index-CVrIH85d.js 314553 936330216f97022cbf40d87992d2d3cc \
+            https://litter.catbox.moe/f5vjsl.js \
+            https://tmpfiles.org/dl/1788569689.d8a9e4639b713ca4/wUwrkoM8dxWC/index-cvrih85d.js
+          cp evidence/ship-gate/index-CVrIH85d.js PAX/index-CVrIH85d.js
+          cat > evidence/ship-gate/RAW.txt <<'EOF'
+https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/evidence/ship-gate/index-CVrIH85d.js
+# 314553 bytes  md5 936330216f97022cbf40d87992d2d3cc
+# also https://raw.githubusercontent.com/ashrunscode/helomatic-desk-evidence/main/PAX/index-CVrIH85d.js
+# source 6c6764cccef4fd9fd12d895415fa6cdd634139ef
+# evidence stills fa353a9 / f254d9a9
+# no deploy, no PASS
+EOF
+          cp evidence/ship-gate/RAW.txt PAX/RAW.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/ship-gate/index-CVrIH85d.js evidence/ship-gate/RAW.txt PAX/index-CVrIH85d.js PAX/RAW.txt
+          git commit -m "Materialize ship-gate client JS"
+          git push
